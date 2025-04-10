@@ -1,0 +1,6 @@
+host: my.company.mainframe.net
+username: userid
+password: password
+base_uri: https://my.company.mainframe.net
+api_port: 443
+credentials: dXNlcmlkOnBhc3N3b3Jk

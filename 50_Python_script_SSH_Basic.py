@@ -1,14 +1,14 @@
 # Python script SSH Basic USS -----------------------------------------
-# - Retrieve all member names from a PDS: PROD001.TENNIS             
+# - Retrieve all member names from a PDS: PROD001.TENNIS            
 # - Retrieve the content of the first member                          
 #----------------------------------------------------------------------
 import yaml
 import paramiko
 
-with open('config.yaml', 'r') as f: 
-   confile = yaml.safe_load(f) 
+with open('config.yaml', 'r') as f:
+   confile = yaml.safe_load(f)
 
-host     = confile['host']
+host = confile['host']
 username = confile['username']
 password = confile['password']
 
@@ -20,15 +20,17 @@ def execute_command(command):
     client.connect(host, port=22, username=username, password=password)
     # Execute the remote command
     stdin, stdout, stderr = client.exec_command(command)
-    out = stdout.read().decode() 
+    out = stdout.read().decode()
     client.close()
     return out
 
 pds = 'PROD001.TENNIS'
 
-members, ste, rc = execute_command(f'tsocmd "listds \'{pds}\' members"')
+members = execute_command(f'tsocmd "listds \'{pds}\' members"')
+members = members.split("--MEMBERS--")[1]
 members = [x.strip() for x in members.split('\n')]
-members = members.split('--MEMBERS--')[0]
+members[:] = [item for item in members if item != ""]
+
 print(f'{pds}')
 print('-'*25)
 for member in members:

@@ -1,5 +1,5 @@
 # Python script in USS ------------------------------------------------
-# - Retrieve all member names from a PDS: PROD001.TENNIS             
+# - Retrieve all member names from a PDS: PROD001.TENNIS            
 # - Retrieve the content of the first member                          
 #----------------------------------------------------------------------
 import subprocess
@@ -17,8 +17,9 @@ def execute_command(command):
 pds = 'PROD001.TENNIS'
 
 members, ste, rc = execute_command(f'tsocmd "listds \'{pds}\' members"')
+members = members.split("--MEMBERS--")[1]
 members = [x.strip() for x in members.split('\n')]
-members = members.split('--MEMBERS--')[0]
+members[:] = [item for item in members if item != ""]
 print(f'{pds}')
 print('-'*25)
 for member in members:
